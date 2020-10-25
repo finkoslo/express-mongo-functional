@@ -11,7 +11,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', dispatch ('index'));
+app.get('/', dispatch ('getallitems'));
+app.post('/', dispatch ('additem'));
 
 app.use(handleErrors);
 
