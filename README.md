@@ -79,6 +79,8 @@ deleteMany :: String -> Object -> Object -> Future (Int | error) (StrMap Int)
 The project makes use of .env files to store your secrets. At a mimimum now to get this project up and running, you need a .env file at the root of your project that looks like this.
 ```
 MONGODB_URL=mongodb://localhost:27017
+ENV=dev
+PORT=3000
 ```
 
 ## Coming soon...
