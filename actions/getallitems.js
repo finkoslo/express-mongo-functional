@@ -2,6 +2,6 @@ const S = require ('../lib/sanctuary');
 const { Json } = require ('../lib/fluture-express');
 const { find } = require ('../lib/db');
 
-module.exports = req => 
+module.exports = (req, { db }) => 
   S.map (Json (200))
-        (find ({}) ('my-collection') ({}));
+        (find (db) ({}) ('my-collection') ({}));

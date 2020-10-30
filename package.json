@@ -7,12 +7,14 @@
     "dev": "nodemon --preserve-symlinks --inspect=0.0.0.0:9228 ./bin/www --watch"
   },
   "dependencies": {
+    "booture": "^2.0.0",
     "cookie-parser": "~1.4.3",
     "daggy": "^1.4.0",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.0",
     "fluture": "^13.0.1",
+    "fluture-hooks": "^2.0.2",
     "fluture-sanctuary-types": "^7.0.0",
     "mongodb": "^3.6.2",
     "morgan": "~1.9.0",

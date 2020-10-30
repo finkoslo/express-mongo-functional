@@ -1,37 +1,68 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
-var app = require('../app');
+require('dotenv').config();
+const Future = require('fluture');
+const {bootstrap}  = require('booture');
+const { acquire, runHook} = require('fluture-hooks');
 var debug = require('debug')('the-real-boilerplate:server');
 var http = require('http');
 
-/**
- * Get port from environment and store in Express.
- */
+const acquireConfig = (
+  Future.attempt (() => ({
+    mongodb: { url: process.env.MONGODB_URL },
+    env: process.env.ENV,
+    port: process.env.PORT
+  }))
+);
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const acquireMongodb = config => ( 
+  Future.node (done => require ('mongodb').MongoClient.connect (config.url, { useNewUrlParser: true, useUnifiedTopology: true, }, done))
+);
 
-/**
- * Create HTTP server.
- */
 
-var server = http.createServer(app);
+const acquireApp = config => mongodb => (
+  Future.attempt (() => require ('../app').create (config) (mongodb))
+);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+const bootstrapConfig = {
+  name: 'config',
+  needs: [],
+  bootstrap: () => acquire (acquireConfig),
+};
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+const bootstrapMongodb = {
+  name: 'mongodb',
+  needs: ['config'],
+  bootstrap: ({config}) => acquire (acquireMongodb (config.mongodb)) 
+};
 
-/**
- * Normalize a port into a number, string, or false.
- */
+
+const bootstrapApp = {
+  name: 'app',
+  needs: ['mongodb', 'config'],
+  bootstrap: ({ mongodb, config }) => acquire (acquireApp (config) (mongodb)),
+};
+
+const servicesHook = bootstrap ([ bootstrapConfig,
+                                  bootstrapMongodb,
+                                  bootstrapApp ]);
+
+const withServices = runHook (servicesHook);
+
+const program = withServices (({app, config}) => Future ((rej, res) => {
+  var port = normalizePort(config.port || '3000');
+
+  app.set('port', port);
+
+  var server = http.createServer(app);
+  server.listen(port);
+  server.on('error', error => rej ({ error, port }));
+  server.on('listening', result => res (server));
+
+  return function onCancel () {
+    process.exit(1);
+  }
+}));
+
+Future.fork (onError) (onListening) (program);
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -53,7 +84,7 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError({ error, port }) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -81,7 +112,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening(server) {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
