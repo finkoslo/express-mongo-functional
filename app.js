@@ -10,6 +10,8 @@ module.exports.create = config => mongo => {
   const handleErrors = errorMiddleware (errorHandler);
   const app = express();
 
+  // TODO: Add middleware to handle login sessions
+
   app.use (session({ secret: config.clientSecret, resave: false, saveUninitialized: true }));
   app.use(logger(config.env));
   app.use(express.json());
