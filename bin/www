@@ -9,7 +9,8 @@ const acquireConfig = (
   Future.attempt (() => ({
     mongodb: { url: process.env.MONGODB_URL },
     env: process.env.ENV,
-    port: process.env.PORT
+    port: process.env.PORT,
+    clientSecret: process.env.CLIENT_SECRET
   }))
 );
 

@@ -81,6 +81,7 @@ The project makes use of .env files to store your secrets. At a mimimum now to g
 MONGODB_URL=mongodb://localhost:27017
 ENV=dev
 PORT=3000
+CLIENT_SECRET=somesecret
 ```
 
 ## Coming soon...
