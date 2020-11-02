@@ -7,6 +7,7 @@ const validate = require ('../lib/validate');
 const { insertOne, findOne } = require ('../lib/db');
 const { cryptString } = require ('../lib/crypto');
 
+// postType :: Type
 const postType = $.RecordType({
   username: $.String,
   password: $Password

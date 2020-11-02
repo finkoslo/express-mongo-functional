@@ -7,6 +7,7 @@ const $Password = require ('../lib/types/password');
 const validate = require ('../lib/validate');
 const { compareCryptString } = require ('../lib/crypto');
 
+// postType :: Type
 const postType = $.RecordType({
   username: $.String,
   password: $Password
