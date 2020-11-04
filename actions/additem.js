@@ -13,4 +13,4 @@ const postType = $.RecordType({
 module.exports = (req, { db }) => 
   S.map (Json (200))  
         (S.chain (insertOne (db) ({}) ('my-collection'))
-                 (validate (postType) (req.body.item)))
+                 (validate (postType) (req.body)))

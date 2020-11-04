@@ -8,12 +8,10 @@ const makeResult = status => {
   switch (status) {
     case 400:
       return S.Pair (400) ('Bad request');
-    case 40001:
-      return S.Pair (400) ('User already exist');
     case 401:
       return S.Pair (401) ('Unauthorized');
     case 403:
-      return S.pair (403) ('Forbidden');
+      return S.Pair (403) ('Forbidden');
     case 404:
       return S.Pair (404) ('Not found');
     default:
@@ -21,12 +19,18 @@ const makeResult = status => {
   }
 }
 
+// customError :: Type
+const customError = $.RecordType({
+  code: $.Integer,
+  message: $.String
+});
+
 module.exports = (err, req, res, next) =>
   S.map
     (S.pair (Json))
     (S.ifElse
-      (S.is ($.Integer))
-      (err => Future.resolve (makeResult (err)))
+      (S.is (customError))
+      (err => console.error (err.message) || Future.resolve (makeResult (err.code)))
       (err => console.error (err) || Future.resolve (makeResult (500)))
       (err))
 

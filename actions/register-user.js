@@ -14,7 +14,7 @@ const postType = $.RecordType({
 });
 
 module.exports = (req, { db }) =>
-  S.map (Json (200))
+  S.map (_ => Json (200) ('OK'))
         (S.chain 
           (userData =>
             S.chain
@@ -26,10 +26,10 @@ module.exports = (req, { db }) =>
             (userData =>
               Future.chainRej
                 (S.ifElse
-                  (err => err === 404)
+                  (err => err.code === 404)
                   (_ => Future.resolve (userData))
                   (Future.reject))
                 (S.chain
-                  (_ => Future.reject (40001))
+                  (user => Future.reject ({ code: 403, message: `User: ${user.username} already exists` }))
                   (findOne (db) ({}) ('users') ({ username: userData.username }))))
             (validate (postType) (req.body))));

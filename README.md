@@ -43,7 +43,7 @@ Here is a unreal example of how the `deleteMany` might be implemented, just to s
 ```JavaScript
 const deleteMany = collection => findQuery => options =>
   S.chain
-    (result => result ? Future.resolve (result): Future.reject (400))
+    (result => result ? Future.resolve (result): Future.reject ({ code: 400, message: 'Some error message' }))
     (someFunctionThatReturnsAFuture (collection) (findQuery) (options))
 ```
 - `Future.resolve` returns a `Future void result`

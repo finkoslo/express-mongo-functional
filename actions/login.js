@@ -22,7 +22,7 @@ module.exports = (req, { db }) =>
                 (S.ifElse 
                   (S.I)
                   (_ => { req.session.user = user; return Future.resolve ('OK') })
-                  (_ => { req.session.user = null; return Future.reject (401) }))
+                  (_ => { req.session.user = null; return Future.reject ({ code: 401, message: `Wrong password for user ${user.username}` }) }))
                 (compareCryptString (postData.password) (user.password))))
           (S.chain
             (postData => 
