@@ -66,7 +66,9 @@ This server uses jwt as authentication method.
 
 ### To log in:
 Send a post request to `/login` with a body like this: 
-`{ "username": "myUserName", "password": "myPassword" }`
+```
+{ "username": "myUserName", "password": "myPassword" }
+```
 This will return a jwt token that last for an hour. You should store this token in Local Storage for later use.
 
 
@@ -80,21 +82,21 @@ This server uses MongoDb as it's database. All queries to the database is done w
 
 ### List of functions:
 ```
-find :: String -> Object -> Object -> Future Error (Array Object)
+find :: Object -> Object -> String -> Object -> Future (Object | Error) Object
 
-findOne :: String -> Object -> Object -> Future (Int | Error) Object
+findOne :: Object -> Object -> String -> Object -> Future (Object | Error) Object
 
-findOneAndUpdate :: String -> Object -> Object -> Object -> Future (Int | Error) Object
+findOneAndUpdate :: Object -> Object -> String -> Object -> Object -> Future (Object | Error) Object
 
-insertOne :: String -> object -> Object -> Future (Int | Error) Object
+insertOne :: Object -> Object -> String -> object -> Future (Object | Error) Object
 
-findOneAndDelete :: String -> Object -> Object -> Future (Int | Error) Object
+findOneAndDelete :: Object -> Object -> String -> Object -> Future (Object | Error) Object
 
-updateMany = String -> Object -> Object -> Object -> Future (Int | Error) (StrMap Int)
+updateMany :: Object -> Object -> Object -> Future (Object | Error) (StrMap Int)
 
-insertMany :: String -> Array Object -> Object -> Future (Int | Error) (StrMap Int)
+insertMany :: Object -> Object -> String -> Array Object -> Future (Object | Error) (StrMap Int)
 
-deleteMany :: String -> Object -> Object -> Future (Int | error) (StrMap Int)
+deleteMany :: Object -> Object -> String -> Object -> Future (Object | error) (StrMap Int)
 ```
 
 ## .env
@@ -105,8 +107,3 @@ ENV=dev
 PORT=3000
 API_SECRET=somesecret
 ```
-
-## Coming soon...
-- Implementation of middleware
-- Authentication
-- POST, PUT, INSERT Validation
