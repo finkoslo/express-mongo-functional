@@ -2,7 +2,7 @@ const $ = require ('sanctuary-def');
 const { Json } = require ('../lib/fluture-express');
 const S = require ('../lib/sanctuary');
 const { insertOne } = require ('../lib/db');
-const $Email = require ('../lib/types/email');
+const $Email = require ('../types/email');
 const validate = require ('../lib/validate');
 
 const postType = $.RecordType({

@@ -1,5 +1,5 @@
 const $ = require ('sanctuary-def');
-const S = require ('../sanctuary');
+const S = require ('../lib/sanctuary');
 // The password length must be greater than or equal to 8
 // The password must contain one or more uppercase characters
 // The password must contain one or more lowercase characters
