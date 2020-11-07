@@ -57,7 +57,8 @@ This server uses jwt as authentication method.
 
 
 ### To log in:
-Send a post request to `/login` with a body like this: `{ "username": "myUserName", "password": "myPassword" }`
+Send a post request to `/login` with a body like this: 
+`{ "username": "myUserName", "password": "myPassword" }`
 This will return a jwt token that last for an hour. You should store this token in Local Storage for later use.
 
 
