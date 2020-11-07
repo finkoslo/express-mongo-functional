@@ -10,7 +10,7 @@ const acquireConfig = (
     mongodb: { url: process.env.MONGODB_URL },
     env: process.env.ENV,
     port: process.env.PORT,
-    clientSecret: process.env.CLIENT_SECRET
+    apiSecret: process.env.API_SECRET
   }))
 );
 

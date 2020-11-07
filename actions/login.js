@@ -6,6 +6,7 @@ const { Json } = require ('../lib/fluture-express');
 const $Password = require ('../lib/types/password');
 const validate = require ('../lib/validate');
 const { compareCryptString } = require ('../lib/crypto');
+const jwt = require ('../lib/jwt');
 
 // postType :: Type
 const postType = $.RecordType({
@@ -13,7 +14,7 @@ const postType = $.RecordType({
   password: $Password
 });
 
-module.exports = (req, { db }) =>
+module.exports = (req, { db, config }) =>
   S.map (Json (200))
         (S.chain
           (S.pair 
@@ -21,8 +22,8 @@ module.exports = (req, { db }) =>
               S.chain
                 (S.ifElse 
                   (S.I)
-                  (_ => { req.session.user = user; return Future.resolve ('OK') })
-                  (_ => { req.session.user = null; return Future.reject ({ code: 401, message: `Wrong password for user ${user.username}` }) }))
+                  (_ => jwt.sign (config.apiSecret) (user))
+                  (_ => Future.reject ({ code: 401, message: `Wrong password for user ${user.username}` })))
                 (compareCryptString (postData.password) (user.password))))
           (S.chain
             (postData => 
