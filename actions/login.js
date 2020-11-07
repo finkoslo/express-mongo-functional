@@ -8,8 +8,8 @@ const validate = require ('../lib/validate');
 const { compareCryptString } = require ('../lib/crypto');
 const jwt = require ('../lib/jwt');
 
-// postType :: Type
-const postType = $.RecordType({
+// $PostType :: Type
+const $PostType = $.RecordType({
   username: $.String,
   password: $Password
 });
@@ -29,6 +29,6 @@ module.exports = (req, { db, config }) =>
             (postData => 
               S.map (S.Pair (postData))
                     (findOne (db) ({}) ('users') ({ username: postData.username })))
-            (validate (postType) (req.body))));
+            (validate ($PostType) (req.body))));
         
   

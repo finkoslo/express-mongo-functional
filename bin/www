@@ -1,9 +1,9 @@
-require('dotenv').config();
-const Future = require('fluture');
-const {bootstrap}  = require('booture');
-const { acquire, runHook} = require('fluture-hooks');
-var debug = require('debug')('the-real-boilerplate:server');
-var http = require('http');
+require ('dotenv').config ();
+const Future = require ('fluture');
+const {bootstrap}  = require ('booture');
+const { acquire, runHook } = require ('fluture-hooks');
+var debug = require ('debug') ('the-real-boilerplate:server');
+var http = require ('http');
 
 const acquireConfig = (
   Future.attempt (() => ({
@@ -53,22 +53,22 @@ const program = withServices (({app, config}) => Future ((rej, res) => {
 
   app.set('port', port);
 
-  var server = http.createServer(app);
-  server.listen(port);
-  server.on('error', error => rej ({ error, port }));
-  server.on('listening', result => res (server));
+  var server = http.createServer (app);
+  server.listen (port);
+  server.on ('error', error => rej ({ error, port }));
+  server.on ('listening', result => res (server));
 
   return function onCancel () {
-    process.exit(1);
+    process.exit (1);
   }
 }));
 
 Future.fork (onError) (onListening) (program);
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+function normalizePort (val) {
+  var port = parseInt (val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN (port)) {
     // named pipe
     return val;
   }
@@ -85,10 +85,10 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(data) {
+function onError (data) {
   if (!data.error) {
     console.error (data);
-    process.exit(1);
+    process.exit (1);
   } else {
     const { error, port } = data;
     if (error.syscall !== 'listen') {
@@ -102,12 +102,12 @@ function onError(data) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
+        console.error (bind + ' requires elevated privileges');
+        process.exit (1);
         break;
       case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
-        process.exit(1);
+        console.error (bind + ' is already in use');
+        process.exit (1);
         break;
       default:
         throw error;
@@ -119,10 +119,10 @@ function onError(data) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening(server) {
-  var addr = server.address();
+function onListening (server) {
+  var addr = server.address ();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug ('Listening on ' + bind);
 }

@@ -5,7 +5,8 @@ const { insertOne } = require ('../lib/db');
 const $Email = require ('../types/email');
 const validate = require ('../lib/validate');
 
-const postType = $.RecordType({
+// $PostType :: Type
+const $PostType = $.RecordType({
   name: $.String,
   email: $Email
 });
@@ -13,4 +14,4 @@ const postType = $.RecordType({
 module.exports = (req, { db }) => 
   S.map (Json (200))  
         (S.chain (insertOne (db) ({}) ('my-collection'))
-                 (validate (postType) (req.body)))
+                 (validate ($PostType) (req.body)))

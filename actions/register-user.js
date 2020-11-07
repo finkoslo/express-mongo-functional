@@ -7,8 +7,8 @@ const validate = require ('../lib/validate');
 const { insertOne, findOne } = require ('../lib/db');
 const { cryptString } = require ('../lib/crypto');
 
-// postType :: Type
-const postType = $.RecordType({
+// $PostType :: Type
+const $PostType = $.RecordType({
   username: $.String,
   password: $Password
 });
@@ -32,4 +32,4 @@ module.exports = (req, { db }) =>
                 (S.chain
                   (user => Future.reject ({ code: 403, message: `User: ${user.username} already exists` }))
                   (findOne (db) ({}) ('users') ({ username: userData.username }))))
-            (validate (postType) (req.body))));
+            (validate ($PostType) (req.body))));
