@@ -1,6 +1,6 @@
 const express = require ('express');
 const path = require ('path');
-const logger = require('morgan');
+const logger = require ('morgan');
 const { dispatcher, middleware, errorMiddleware } = require ('./lib/fluture-express');
 const errorHandler = require ('./middleware/error-handler');
 const authenticate = require ('./middleware/authenticate');
@@ -14,12 +14,17 @@ module.exports.create = config => mongo => {
   app.use (logger (config.env));
   app.use (express.json ());
   app.use (express.urlencoded ({ extended: false }));
+
+  /******** Routes ********/
+
   app.post ('/login', dispatch ('login'));
   app.post ('/register-user', dispatch ('register-user'));
   app.get ('/items', auth, dispatch ('getallitems'));
   app.post ('/item', auth, dispatch ('additem'));
+  
+  /***** Routes END ******/
 
-  app.use(handleErrors);
+  app.use (handleErrors);
     
   return app;
 }

@@ -1,6 +1,14 @@
 # Express Mongodb Functional Server
 
 This server takes a different approach to how you organize and write code compared to how a normal express server is set up.
+Because of JavaScripts unsafe nature with dynamic types, keeping your normal Express code safe demands a lot of effort and 
+experience from the developer. 
+
+To address this problem, this boilerplates code is based on Strictly Typed Functional Programming style. It will take some effort to learn how to write in this style, but once you get familiar with it, it will make your life a lot simpler with cleaner code and easier error handling. Actually, you won't be able to ignore erros. You will be forced to handle all possible error cases. This might sound like a lot of work, but it really isn't.
+
+We recommend that you familiarize yourself with [Fluture](https://github.com/fluture-js/Fluture) and [Sanctuary](https://sanctuary.js.org), as 90% of the code you will write will be based on these two libraries. Which will make your code feel more like it was a member of the ML Language family. But your are still writing pure JavaScript, so no need to compile your code.
+
+This project will also use types. But instead of taking the approach of using TypeScript and compile your code to JavaScript. You will use JavaScripts built in functions for type checking. Wrapped in helper types from [sanctuary-def](https://github.com/sanctuary-js/sanctuary-def), so you don't have to write a lot of boilerplate code. In addition, you won't have to add types to everything. You can if you want to, but the most common approach is to add types when your not in control of the data (like user input and external API calls).
 
 
 ## Routes
