@@ -39,7 +39,7 @@ In this example, `deleteMany` returns a `Future Error Result`. 'Result' meaning 
 
 A Future has this beautiful trait that it can have two states, either an error or some result. To access the result, we run and `S.map` on it. If the future was an error, the S.map is ignored, just like if it was an empty `Array` and sends the error to the error handler which sends a proper error message to the client. This means that your don't have to worry about error handling all over your code, you just handle the error where the error can occur, and you can trust that the error is handled by the error handler.
 
-Here is a unreal example of how the `deleteMany` might be implemented, just to show how it's done.
+Here is a fictive example of how the `deleteMany` might be implemented, just to show how it's done.
 ```JavaScript
 const deleteMany = collection => findQuery => options =>
   S.chain
@@ -51,6 +51,19 @@ const deleteMany = collection => findQuery => options =>
 - `S.chain` does the same as `S.map` exept that it can merge two Futures. So since the first argument to `S.chain` returns a `Future`, we need to use chain instead of map. This is a functional concept that applies to `Monads` that I won't go into here.
 
 The concept in the example above shows how easy it is to make custom errors, even if the `someFunctionThatReturnsAFuture` didn't fail. If it DID fail, we could either do nothing, which would result in a 500 to the client, or we could have manipulated that error to be something else.
+
+## Authentication
+This server uses jwt as authentication method. 
+
+
+### To log in:
+Send a post request to `/login` with a body like this: `{ "username": "myUserName", "password": "myPassword" }`
+This will return a jwt token that last for an hour. You should store this token in Local Storage for later use.
+
+
+### To call the API with jwt token
+You need to set Authorization header in your request like this:
+`Authorization: Bearer <jwt token>`
 
 
 ## MongoDb
@@ -81,7 +94,7 @@ The project makes use of .env files to store your secrets. At a mimimum now to g
 MONGODB_URL=mongodb://localhost:27017
 ENV=dev
 PORT=3000
-CLIENT_SECRET=somesecret
+API_SECRET=somesecret
 ```
 
 ## Coming soon...
