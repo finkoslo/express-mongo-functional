@@ -51,7 +51,9 @@ Here is a fictive example of how the `deleteMany` might be implemented, just to 
 ```JavaScript
 const deleteMany = collection => findQuery => options =>
   S.chain
-    (result => result ? Future.resolve (result): Future.reject ({ code: 400, message: 'Some error message' }))
+    (result => result
+                ? Future.resolve (result)
+                : Future.reject ({ code: 400, message: 'Some error message' }))
     (someFunctionThatReturnsAFuture (collection) (findQuery) (options))
 ```
 - `Future.resolve` returns a `Future void result`
