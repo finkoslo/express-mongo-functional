@@ -1,5 +1,5 @@
 const Future = require ('fluture');
-const { Next } = require ('../lib/fluture-express');
+const { Next, Redirect } = require ('../lib/fluture-express');
 const S = require ('../lib/sanctuary');
 
 const getUserSession = session =>
@@ -8,6 +8,8 @@ const getUserSession = session =>
     : Future.reject ({ code: 401, message: 'Unaothorized API attempt' });
 
 module.exports = (req, locals) =>
-  S.map (Next)
-        (S.map (S.concat (locals))
-               (getUserSession (req.session)))
+  Future.chainRej
+    (_ => Future.resolve (Redirect (302) ('/login')))
+    (S.map (Next)
+           (S.map (S.concat (locals))
+                  (getUserSession (req.session))));

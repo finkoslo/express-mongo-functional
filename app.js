@@ -11,13 +11,19 @@ module.exports.create = config => mongo => {
   const handleErrors = errorMiddleware (errorHandler);
   const auth = middleware (authenticate);
   const app = express();
-
+  
+  // view engine setup
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use (session({ secret: config.clientSecret, resave: false, saveUninitialized: true }));
   app.use(logger(config.env));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
-  app.post('/login', dispatch ('login'));
+  app.get('/', auth, dispatch ('index'));
+  app.get('/login', dispatch ('login'));
+  app.post('/login', dispatch ('postlogin'));
   app.post('/register-user', dispatch ('register-user'));
   app.get('/items', auth, dispatch ('getallitems'));
   app.post('/item', auth, dispatch ('additem'));
