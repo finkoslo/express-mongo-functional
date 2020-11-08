@@ -30,8 +30,8 @@ module.exports.create = config => mongo => {
   app.get('/logout', dispatch ('logout'));
   app.get('/register-user', dispatch ('register'))
   app.post('/register-user', dispatch ('register-user'));
-  app.get('/items', dispatch ('items'));
-  app.post('/item', dispatch ('additem'));
+  app.get('/items', auth, dispatch ('items'));
+  app.post('/item', auth, dispatch ('additem'));
 
   app.use(handleErrors);
     
