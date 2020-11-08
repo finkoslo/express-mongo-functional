@@ -1,0 +1,26 @@
+<%- include('header'); -%>
+
+<% items.forEach ((item) => { %>
+  <p><%= item.name %> - <%= item.email %></p>
+<% }) %>
+
+<h2>Add item</h2>
+<form class="col s12" action="/item" method="POST">
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="name" type="text" name="name">
+      <label for="name">Name</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="email" type="email" name="email" class="validate">
+      <label for="email">Email</label>
+    </div>
+  </div>
+  <button class="btn waves-effect waves-light" type="submit">Submit
+    <i class="material-icons right">send</i>
+  </button>
+</form>
+
+<%- include('footer'); -%>

@@ -1,6 +1,6 @@
 const Future = require ('fluture');
 const $ = require ('sanctuary-def');
-const { Json } = require ('../lib/fluture-express');
+const { Redirect } = require ('../lib/fluture-express');
 const S = require ('../lib/sanctuary');
 const $Password = require ('../lib/types/password');
 const validate = require ('../lib/validate');
@@ -14,7 +14,7 @@ const postType = $.RecordType({
 });
 
 module.exports = (req, { db }) =>
-  S.map (_ => Json (200) ('OK'))
+  S.map (user => { req.session.user = user; return Redirect (302) ('/') })
         (S.chain 
           (userData =>
             S.chain
@@ -30,6 +30,8 @@ module.exports = (req, { db }) =>
                   (_ => Future.resolve (userData))
                   (Future.reject))
                 (S.chain
-                  (user => Future.reject ({ code: 403, message: `User: ${user.username} already exists` }))
+                  (user => Future.reject ({ code: 40301, message: `User: ${user.username} already exists` }))
                   (findOne (db) ({}) ('users') ({ username: userData.username }))))
-            (validate (postType) (req.body))));
+            (Future.mapRej 
+              (_ => ({ code: 40302, message: 'Invalid username or passord submitted when registering' }))
+              (validate (postType) (req.body)))));

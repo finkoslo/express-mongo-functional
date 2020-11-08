@@ -2,7 +2,7 @@
 
 <div class="row">
   <% if (!locals.user) { %>
-  <form class="col s12" action="/login" method="POST">
+  <form class="col s12" action="/register-user" method="POST">
     <div class="row">
       <div class="input-field col s12">
         <input id="username" type="text" name="username">
@@ -19,7 +19,6 @@
       <i class="material-icons right">send</i>
     </button>
   </form>
-  <p><a href="/register-user">Register</a></p>
   <% } else { %>
     <p>Already logged in</p>
     <a href="/logout" class="waves-effect waves-light btn">Logout</a>

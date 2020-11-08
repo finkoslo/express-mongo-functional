@@ -1,7 +1,7 @@
 const Future = require ('fluture');
 const S = require ('../lib/sanctuary');
 const $ = require ('sanctuary-def');
-const { Json } = require ('../lib/fluture-express');
+const { Render } = require ('../lib/fluture-express');
 
 // makeResult :: Integer -> Object
 const makeResult = status => {
@@ -10,8 +10,14 @@ const makeResult = status => {
       return S.Pair (400) ('Bad request');
     case 401:
       return S.Pair (401) ('Unauthorized');
+    case 40101:
+      return S.Pair (401) ('Wrong username or password');
     case 403:
       return S.Pair (403) ('Forbidden');
+    case 40301:
+      return S.Pair (403) ('User already exist');
+    case 40302:
+      return S.Pair (403) ('Invalid format');
     case 404:
       return S.Pair (404) ('Not found');
     default:
@@ -27,7 +33,7 @@ const customError = $.RecordType({
 
 module.exports = (err, req, res, next) =>
   S.map
-    (S.pair (Json))
+    (S.pair (code => message => Render ('error') ({ title: 'Error', code, message })))
     (S.ifElse
       (S.is (customError))
       (err => console.error (err.message) || Future.resolve (makeResult (err.code)))

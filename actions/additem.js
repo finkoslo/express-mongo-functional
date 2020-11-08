@@ -1,5 +1,5 @@
 const $ = require ('sanctuary-def');
-const { Json } = require ('../lib/fluture-express');
+const { Redirect } = require ('../lib/fluture-express');
 const S = require ('../lib/sanctuary');
 const { insertOne } = require ('../lib/db');
 const $Email = require ('../lib/types/email');
@@ -11,6 +11,6 @@ const postType = $.RecordType({
 });
 
 module.exports = (req, { db }) => 
-  S.map (Json (200))  
+  S.map (_ => Redirect (302) ('/items'))  
         (S.chain (insertOne (db) ({}) ('my-collection'))
-                 (validate (postType) (req.body)))
+                 (validate (postType) (req.body)));

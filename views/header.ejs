@@ -8,3 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo">λ</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <% if (!locals.hideLogin) { %>
+            <% if (locals.user) { %>
+              <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+              <li><a href="/login">Login</a></li>
+            <% } %>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <h1><%= title %></h1>
