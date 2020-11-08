@@ -30,8 +30,8 @@ module.exports = (err, req, res, next) =>
     (S.pair (Json))
     (S.ifElse
       (S.is (customError))
-      (err => console.error (err.message) || Future.resolve (makeResult (err.code)))
-      (err => console.error (err) || Future.resolve (makeResult (500)))
+      (err => console.error ('\x1b[31m%s\x1b[0m', err.message) || Future.resolve (makeResult (err.code)))
+      (err => console.error ('\x1b[31m%s\x1b[0m', err) || Future.resolve (makeResult (500)))
       (err))
 
           
